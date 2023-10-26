@@ -12,54 +12,53 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE SCHEMA IF NOT EXISTS `dw` DEFAULT CHARACTER SET utf8 ;
 USE `dw` ;
 
-CREATE TABLE DIM_TEMPO (
-    data_referencia DATE PRIMARY KEY,
+CREATE TABLE TEMPO_DIM (
+    data_ref DATE PRIMARY KEY,
     ano INT,
-    trimestre INT,
-    mes VARCHAR(50),
-    dia_da_semana VARCHAR(50),
-    flag_feriado BOOLEAN
+    mes VARCHAR(45),
+    dia_semana VARCHAR(45),
+    day_off BOOLEAN
 );
 
-CREATE TABLE DIM_CLIENTE (
-    id_cliente INT PRIMARY KEY,
-    nm_completo_cliente VARCHAR(150),
-    ie_sexo CHAR(1),
-    qt_tempo_dias_cadastro INT
+CREATE TABLE CLIENTE_DIM (
+    clienteID INT PRIMARY KEY,
+    nm_completo VARCHAR(250),
+    sexo CHAR(1),
+    cpf VARCHAR(13)
 );
 
-CREATE TABLE DIM_FILME (
-    id_filme INT PRIMARY KEY,
-    nm_filme VARCHAR(255),
-    ds_categoria_principal VARCHAR(25),
-    ds_categoria_secundaria VARCHAR(25),
-    ds_idioma CHAR(20),
-    nr_ano_lancamento INT
+CREATE TABLE FILMES_DIM (
+    filmeID INT PRIMARY KEY,
+    nm_filme VARCHAR(250),
+    cat_Principal VARCHAR(50),
+    cat_secundaria VARCHAR(50),
+    idioma CHAR(30),
+    dt_lancamento INT
 );
 
-CREATE TABLE DIM_FUNCIONARIO (
-    id_funcionario INT PRIMARY KEY,
-    nm_completo_funcionario VARCHAR(150)
+CREATE TABLE FUNC_DIM (
+    funcionarioID INT PRIMARY KEY,
+    nm_completo_func VARCHAR(250)
 );
 
-CREATE TABLE FATO_LOCACAO (
+CREATE TABLE FATO_LOCAÇÃO (
     id_locacao INT PRIMARY KEY,
-    id_cliente INT,
-    id_filme INT,
-    id_funcionario INT,
-    qt_dias_locacao INT,
-    ie_pago BOOLEAN,
+    clienteID INT,
+    filmeID INT,
+    funcionarioID INT,
+    qt_dias_locação INT,
     dt_locacao DATE,
     vl_pago DECIMAL(5, 2)
 );
 
 ALTER TABLE FATO_LOCACAO
-    ADD FOREIGN KEY (dt_locacao) REFERENCES DIM_TEMPO(data_referencia),
-    ADD FOREIGN KEY (id_cliente) REFERENCES DIM_CLIENTE(id_cliente),
-    ADD FOREIGN KEY (id_filme) REFERENCES DIM_FILME(id_filme),
-    ADD FOREIGN KEY (id_funcionario) REFERENCES DIM_FUNCIONARIO(id_funcionario);
+    ADD FOREIGN KEY (dt_locacao) REFERENCES DIM_TEMPO(data_ref),
+    ADD FOREIGN KEY (clienteID) REFERENCES DIM_CLIENTE(clienteID),
+    ADD FOREIGN KEY (filmeID) REFERENCES DIM_FILME(filmeID),
+    ADD FOREIGN KEY (funcionarioID) REFERENCES DIM_FUNCIONARIO(funcionarioID);
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
