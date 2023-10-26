@@ -41,12 +41,12 @@ CREATE TABLE FUNC_DIM (
     nm_completo_func VARCHAR(250)
 );
 
-CREATE TABLE FATO_LOCAÇÃO (
+CREATE TABLE FATO_LOCACAO (
     id_locacao INT PRIMARY KEY,
     clienteID INT,
     filmeID INT,
     funcionarioID INT,
-    qt_dias_locação INT,
+    qt_dias_locacao INT,
     dt_locacao DATE,
     vl_pago DECIMAL(5, 2)
 );
